@@ -1,6 +1,6 @@
-# CENG447Lab0
+# CENG447Lab5
 
-Simple flash project and toolchain check for AVR devleopment
+Timers and Motor Control
 
 ## Getting Started
 
