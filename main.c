@@ -3,14 +3,9 @@
 #include <util/delay.h>
 
 int main() {
-  DDRB = 0xFF;
 
   while (1){
-      char i;
-      for (i = 0; i < 10; i++) {
-        _delay_ms(60);
-      }
-      PORTB ^= 0b00100000;
+
   }
-  return 0;
+  return 1;
 }
