@@ -21,11 +21,11 @@ void initMotor() {
 }
 
 void driveLeft(int speed, wheelDirection direction) {
-
+    // TODO
 }
 
 void driveRight(int speed, wheelDirection direction) {
-
+    // TODO
 }
 
 void driveForward(int speed) {
