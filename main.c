@@ -2,6 +2,11 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+void Init() {
+  // Enable global interrupts
+  sei();
+}
+
 int main() {
   int i = 0;
   Init();
@@ -17,9 +22,4 @@ int main() {
     }
   }
   return 1;
-}
-
-void Init() {
-  // Enable global interrupts
-  sei();
 }
