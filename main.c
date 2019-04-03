@@ -1,6 +1,5 @@
 #define F_CPU 16000000
-#define USART_BAUDRATE 9600
-#define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+#include "avr/interrupt.h"
 #include "motor_driver.h"
 #include <avr/io.h>
 #include <util/delay.h>

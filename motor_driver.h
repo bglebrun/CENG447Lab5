@@ -18,7 +18,7 @@ void driveLeft(int speed, wheelDirection direction);
 void driveRight(int speed, wheelDirection direction);
 void driveForward(int speed);
 void driveBackward(int speed);
-void setA(double speed, wheelDirection direction);
-void setB(double speed, wheelDirection direction);
+void setA(int speed, wheelDirection direction);
+void setB(int speed, wheelDirection direction);
 
 #endif
