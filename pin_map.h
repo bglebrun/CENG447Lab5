@@ -27,8 +27,8 @@
 #define US_ECHO   4  // PORTC
 #define US_TRIG   5  // PORTC
 
-#define H_A_EN    5  // PORTD
-#define H_B_EN    6  // PORTD
+#define H_A_EN    5  // PORTD PWM pin
+#define H_B_EN    6  // PORTD PWM pin
 #define H_IN1     7  // PORTD
 #define H_IN2     0  // PORTB
 #define H_IN3     1  // PORTB

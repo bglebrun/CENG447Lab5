@@ -1,10 +1,13 @@
 #include "motor_driver.h"
 
+// motors use pins 
+
 void initMotor() {
   // Init port B for output
   DDRB = 0xFF;
-  PORTB = 0xFF;
   DDRD = 0xFF;
+  PORTB = 0xFF;
+
 
   OCR0A = 0;
 
@@ -14,18 +17,49 @@ void initMotor() {
 
   // TCNT0 to 0
   TCNT0 = 0x00;
-  // TODO: this probably isn't correct
-  // output compare B registers to approximately 75% duty cycle (div by 255)
-  // Shows as constant square wave, in reality this will be changed (probably)
-  OCR0B = 192;
 }
 
+/*
+ * IN 1 & IN 2 & EN A
+ * 
+ * IN 3 & IN 4 & EN B 
+ */
+
+void setA(int speed, wheelDirection direction) {
+    switch(direction) {
+        case forward: 
+            setBit(PORTB, H_IN1);
+            clearBit(PORTD, H_IN2);
+        break;
+        case back:
+            setBit(PORTD, H_IN2);
+            clearBit(PORTB, H_IN1);
+        break;
+    }
+    OCR0B = speed;
+}
+
+void setB(int speed, wheelDirection direction) {
+    switch(direction) {
+        case forward:
+            setBit(PORTB, H_IN3);
+            clearBit(PORTB, H_IN4);
+        break;
+        case back:
+            setBit(PORTB, H_IN4);
+            clearBit(PORTB, H_IN3);
+        break;
+    }
+    OCR0A = speed;
+}
+
+
 void driveLeft(int speed, wheelDirection direction) {
-    // TODO
+  
 }
 
 void driveRight(int speed, wheelDirection direction) {
-    // TODO
+  
 }
 
 void driveForward(int speed) {

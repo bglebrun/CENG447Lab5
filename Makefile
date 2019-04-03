@@ -5,22 +5,22 @@
 # test-connection:	calls avrdude to test connection
 
 # Name for compilation
-PROJECT		?= blink
+PROJECT		?= driver
 
 # Objects to build
-OBJECTS		?= main.o
+OBJECTS		?= motor_driver.o main.o
 
 # Microprocessor
 AVRMCU		?= atmega328p
 AVRCLOCK	?= 16000000
 
 # Avr connection deets
-PORT				?= com5
+PORT		?= com5
 PROGRAMMER	?= arduino
 
 # Avr toolchain
 AVRCPP		?= avr-gcc.exe
-AVROBJCPY ?= avr-objcopy.exe
+AVROBJCPY 	?= avr-objcopy.exe
 AVRSIZE		?= avr-size.exe
 AVRDUDE		?= avrdude.exe
 
