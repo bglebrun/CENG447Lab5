@@ -12,6 +12,8 @@ typedef enum WHEEL_DIRECTION
 
 void initTimer();
 void initMotor();
+void setB(int speed, wheelDirection direction);
+void setA(int speed, wheelDirection direction);
 void driveLeft(int speed, wheelDirection direction);
 void driveRight(int speed, wheelDirection direction);
 void driveForward(int speed);
