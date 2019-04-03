@@ -40,8 +40,13 @@ void setB(int speed, wheelDirection direction)
     OCR0A = speed;
 }
 
-void initTimer()
+void initMotor()
 {
+    // Init port B for output
+    DDRB = 0xFF;
+    PORTB = 0xFF;
+    DDRD = 0xFF;
+
     // set both motors to start off
     OCR0A = 0;
     OCR0B = 0;
@@ -52,16 +57,6 @@ void initTimer()
     // Enable fast pwm mode for DC motor output
     TCCR0A = 0xA3;
     TCCR0B = 0x05; // 1024 prescaler
-}
-
-void initMotor()
-{
-    // Init port B for output
-    DDRB = 0xFF;
-    PORTB = 0xFF;
-    DDRD = 0xFF;
-
-    initTimer();
 }
 
 void driveLeft(int speed, wheelDirection direction)
