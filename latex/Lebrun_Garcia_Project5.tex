@@ -145,16 +145,16 @@ functions. Values are:
     \item back
 \end{itemize}
 
-\subsection*{ISR(TIMER0_COMPA_vect) (interrupt)}
+\subsection*{ISR(TIMER0\_COMPA\_vect) (interrupt)}
 Increments the MAIC by one each time the interrupt is invoked. This allows a rough delay functionality with an accuracy based on the period of the interrupt. The program uses a 1024 prescaler, so the period of a single interrupt cycle is 16ms. We noticed possible errors with this timing method for the smallest prescaler values.
 
 \subsection*{getNumInterruptsForDuration}
 Computes the number of PWM periods that need to pass before the specified time has passed, to the next full period. The targetCount global is set to this value and the MAIC (Motor A Interrupt Counter) variable is compared against it to determine when the delay is finished. MAIC is set to 0 at the end of the function to prevent the delay from being incorrect.
 
 \subsection*{delayUntilTargetCount}
-After a call to getNumInterruptsForDuration, targetCount will be set and delayUntilTargetCount will spin wait until MAIC is greater than the targetCount. MAIC is incremented by the TIMER0_COMPA_vect interrupt so the loop will be escaped after the appropriate delay has gone by.
+After a call to getNumInterruptsForDuration, targetCount will be set and delayUntilTargetCount will spin wait until MAIC is greater than the targetCount. MAIC is incremented by the TIMER0\_COMPA\_vect interrupt so the loop will be escaped after the appropriate delay has gone by.
 
-\subsection*{DELAY_COUNT}
+\subsection*{DELAY\_COUNT}
 macro function to simplify the computation for getNumInterruptsForDuration. Divides the requested speed by the PWM (interrupt) period and adds 1 if the period does not evenly divide the delay.
 
 \section*{Discussion}
