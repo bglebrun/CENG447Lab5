@@ -158,7 +158,7 @@ accurate but made to be fast and provide continuous drive. One of our first
 issues was in driving the motors and accounting for issues with the quality 
 of the build, especially power distribution and toe, camber, and alignment of 
 the wheels on their motors. Some degree of physical manipulation was performed 
-but we ultimately took to software solutions to bias the wheels correctly by 
+but we ultimately we will need to find software solutions to bias the wheels correctly by 
 adjusting the PWM value written to the output compare registers.
 
 Another issue was using the correct data type. On initial sketch we used integers, 
@@ -177,6 +177,16 @@ make easier controlling the speed and direction to the motors.
 \item  PWM frequency for Timer 0 is controlled by the clock-select bits in TCCR0B. Test all five
 PWM output frequencies while holding OCR0n static. What effects do you see on motor
 speed/torque? Drawing on your knowledge from Circuits II, what is happening?
+
+As we increase the prescaler, the motors start to whine to even higher pitches as we increase the scale
+of the clock until what we suspect is a barely audible noise at 16MHz which is the absolute highest clock.
+The internal of the motor is a coil of wire around a magnet which is attempting to either attract itself 
+or deflect itself against the poles of the magnet and the poles of the magnetic inductive force around the 
+driving coils. When our prescale value is too high for this reaction to take place and affects the total duty
+cycle available to the DC motor. In the case of the extremely high frequencies to our motors, the full duty 
+cycle is not being executed.
+
+
 
 \item  Watchdog timers are a critical part of robust embedded systems. How do watchdog timers
 function? Does the ATMega328P include a watchdog timer? If so, from where does it pull
