@@ -22,6 +22,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{listings}
 \hypersetup{citecolor=DeepPink4}
 \hypersetup{linkcolor=red}
 \hypersetup{urlcolor=blue}
@@ -105,25 +106,118 @@ library which should allow us to use in the future. Because
 it also uses a pin map header file, we can also move the motor
 headers around when needed.
 
+\subsection*{initMotor}
+All of our motor initializations with timer preperation and 
+scaling, PWM modes and timer interrupt enable for turn functions.
 
+\subsection*{setB}
+Sets the OCR0B PWM pin and one side of our motor, specifically the 
+left side motors on our robot. Set speed and direction with included 
+enumeration inside of this motor driver file.
 
+\subsection*{setA}
+Sets the OCR0A PWM pin and one side of our motor, specifically the 
+right side motors on our robot. Set speed and direction with included 
+enumeration inside of this motor driver file.
+
+\subsection*{turnLeft}
+Simple abstraction function, activates the proper setB and setA functions 
+with speed and length of time to be inside the function then stops.
+
+\subsection*{turnRight}
+Simple abstraction function, activates the proper setB and setA functions 
+with speed and length of time to be inside the function then stops.
+
+\subsection*{driveForward}
+Simple abstraction function, drives the wheels forward for a set amount 
+of time, then stops.
+
+\subsection*{driveBackward}
+Simple abstraction function, drives the whels backwards for a set amount
+of time, then stops.
+
+\subsection*{enum WHEEL\_DIRECTION}
+Enumeration to allow ease of programming and simple calls for our motor driver
+functions. Values are: 
+
+\begin{itemize}
+    \item forward
+    \item back
+\end{itemize}
+
+\subsection*{delayUntilTargetCount}
+% TODO
+
+\subsection*{getNumInterruptsForDuration}
+% TODO
 
 \section*{Discussion}
-Discuss challenges met in completion of the lab and how you solved them. Communicate what you learned from the lab, and comment on where this lab material would be applicable 'in the real world'. 
+Timers and motor drivers are finicky devices, especially on platforms with 
+some degree of inaccuracy. By their inherent design DC motors are not entirely 
+accurate but made to be fast and provide continuous drive. One of our first 
+issues was in driving the motors and accounting for issues with the quality 
+of the build, especially power distribution and toe, camber, and alignment of 
+the wheels on their motors. Some degree of physical manipulation was performed 
+but we ultimately took to software solutions to bias the wheels correctly by 
+adjusting the PWM value written to the output compare registers.
+
+Another issue was using the correct data type. On initial sketch we used integers, 
+however, we later recalled that these are in fact 16 bit values being assigned to 
+8 bit accurate registers. To prevent overflow, we changed these to 8 bit c-character 
+variables immediately.
+
+This lab is fairly straightfoward, using the OCR0X registers directly to write a 
+relative speed between 0-255 in fast PWM mode on a 1024 prescale, we can more or 
+less come to approximate to the easy mode Arduino IDE sketch of setting the digital 
+pins PWM of 0-255. Then it's a matter of writing corresponding functions to 
+make easier controlling the speed and direction to the motors.
 
 \section*{Responses}
-Respond intelligently and at necessary length to any questions posed in the lab assignment.
 \begin{enumerate}
 \item Enumerations are a useful for addressing specific questions.
 \end{enumerate} 
 
+\newpage
 \section*{Appendices}
-You'll want to put your full code here, possibly datasheets. Each appendix should start on a fresh page. Check out the \textbf{lstlisting} package, it might make your life easier. 
+Table of contents:
+\begin{itemize}
+    \item main.c - entry, initialization and drive instructions
+    \item bit\_macros.h - bit manipulations macros
+    \item motor\_driver.h - header file for main motor driver
+    \item motor\_driver.c - main c file for motor driver
+    \item pin\_map.h - map of our motor pins
+\end{itemize}
 \newpage
 
-\section*{Appendix A: Nothing}
+\section*{Appendix A: main.c}
+\begin{tiny}
+\lstinputlisting{../main.c}
+\end{tiny}
+\newpage
 
-%----------------------------------------------------------------------------------------
+\section*{Appendix B: bit\_macros.h}
+\begin{tiny}
+\lstinputlisting{../bit_macros.h}
+\end{tiny}
+\newpage
+
+\section*{Appendix C: motor\_driver.h}
+\begin{tiny}
+\lstinputlisting{../motor_driver.h}
+\end{tiny}
+\newpage
+
+\section*{Appendix D: motor\_driver.c}
+\begin{tiny}
+\lstinputlisting{../motor_driver.c}
+\end{tiny}
+\newpage
+
+\section*{Appendix E: pin\_map.h}
+\begin{tiny}
+\lstinputlisting{../pin_map.h}
+\end{tiny}
+\newpage
 
 \end{document}
 \grid
