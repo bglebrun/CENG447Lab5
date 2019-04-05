@@ -1,5 +1,4 @@
 #include "motor_driver.h"
-#include <stdio.h>
 
 // motors use pins
 
@@ -14,20 +13,6 @@
 // interrupt counter for motor A
 volatile extern long MAIC;
 extern long targetCount;
-
-static int uart_putchar(char c, FILE* stream);
-
-/* stdout stream */
-static FILE mystdout = FDEV_SETUP_STREAM(uart_putchar, NULL, _FDEV_SETUP_WRITE);
-
-static int uart_putchar(char c, FILE* stream)
-{
-    if (c == '\n')
-        uart_putchar('\r', stream);
-    loop_until_bit_is_set(UCSR0A, UDRE0);
-    UDR0 = c;
-    return 0;
-}
 
 void setA(int speed, wheelDirection direction)
 {
@@ -128,8 +113,6 @@ void delayUntilTargetCount()
 {
     while (MAIC <= targetCount)
     {
-        fprintf(&mystdout, "MAIC: %ld | targetCount: %ld\r\n", MAIC,
-                targetCount);
     };
     MAIC = 0;
 }
