@@ -174,7 +174,24 @@ make easier controlling the speed and direction to the motors.
 
 \section*{Responses}
 \begin{enumerate}
-\item Enumerations are a useful for addressing specific questions.
+\item  PWM frequency for Timer 0 is controlled by the clock-select bits in TCCR0B. Test all five
+PWM output frequencies while holding OCR0n static. What effects do you see on motor
+speed/torque? Drawing on your knowledge from Circuits II, what is happening?
+
+\item  Watchdog timers are a critical part of robust embedded systems. How do watchdog timers
+function? Does the ATMega328P include a watchdog timer? If so, from where does it pull
+its clock signal? To what value would one set WDTCSR if they wanted to reset the system
+after one second of inactivity?
+
+A watchdog timer is a timer that, when hitting a timeout, will attempt to reset the entire 
+system. This is generally used to check for faults or large values of other timers and systems 
+to prevent hanging of the entire system. It's generally good practice to reset or refresh the watchdog 
+timer value at the end of certain processes to ensure it doesn't erroneously reset the entire system.
+
+The ATMega328P does have a watchdog timer which pulls from it's own independent clock generator. One 
+would set the last four bits of the WDTCSR register to 0110 for a one second watchdog timer.
+
+
 \end{enumerate} 
 
 \newpage
