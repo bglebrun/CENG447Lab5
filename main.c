@@ -17,15 +17,21 @@ void Init()
     sei();
 }
 
-void testCircle()
+void testSquare()
 {
     for (int i = 0; i < 3; i++)
     {
-        driveForward(128, 500);
-        _delay_ms(200);
-        turnLeft(128, 250);
-        _delay_ms(200);
+        driveForward(64, 750);
+        stop();
+        turnLeft(64, 750);
+        stop();
     }
+}
+
+void testCircle()
+{
+    driveForward(64, 200);
+    turnLeft(64, 200);
 }
 
 int main()
@@ -34,7 +40,11 @@ int main()
     Init();
     while (1)
     {
-        testCircle();
+        // testSquare();
+        // _delay_ms(1000);
+        // testCircle();
+        // _delay_ms(1000);
+        setA(128, FORWARD);
     }
     return 1;
 }

@@ -14,7 +14,7 @@
 volatile extern long MAIC;
 extern long targetCount;
 
-void setA(int speed, wheelDirection direction)
+void setA(unsigned char speed, wheelDirection direction)
 {
     switch (direction)
     {
@@ -30,7 +30,7 @@ void setA(int speed, wheelDirection direction)
     OCR0A = speed;
 }
 
-void setB(int speed, wheelDirection direction)
+void setB(unsigned char speed, wheelDirection direction)
 {
     switch (direction)
     {
@@ -69,44 +69,42 @@ void initMotor()
     TIMSK0 = 0x02;
 }
 
-void turnLeft(int speed, int time_ms)
+void turnLeft(unsigned char speed, int time_ms)
 {
     getNumInterruptsForDuration(time_ms);
     setB(speed, FORWARD);
     setA(speed, BACK);
     delayUntilTargetCount();
-    setB(0, FORWARD);
-    setA(0, BACK);
 }
 
-void turnRight(int speed, int time_ms)
+void turnRight(unsigned char speed, int time_ms)
 {
     getNumInterruptsForDuration(time_ms);
     setB(speed, BACK);
     setA(speed, FORWARD);
     delayUntilTargetCount();
-    setB(0, BACK);
-    setA(0, FORWARD);
 }
 
-void driveForward(int speed, int time_ms)
+void driveForward(unsigned char speed, int time_ms)
 {
     getNumInterruptsForDuration(time_ms);
     setA(speed, FORWARD);
     setB(speed, FORWARD);
     delayUntilTargetCount();
-    setB(0, FORWARD);
-    setA(0, FORWARD);
 }
 
-void driveBackward(int speed, int time_ms)
+void driveBackward(unsigned char speed, int time_ms)
 {
     getNumInterruptsForDuration(time_ms);
     setA(speed, BACK);
     setB(speed, BACK);
     delayUntilTargetCount();
-    setB(0, BACK);
-    setA(0, BACK);
+}
+
+void stop()
+{
+    setA(0, FORWARD);
+    setB(0, FORWARD);
 }
 
 void delayUntilTargetCount()

@@ -16,12 +16,13 @@ typedef enum WHEEL_DIRECTION
 } wheelDirection;
 
 void initMotor();
-void setB(int speed, wheelDirection direction);
-void setA(int speed, wheelDirection direction);
-void turnLeft(int speed, int time_ms);
-void turnRight(int speed, int time_ms);
-void driveForward(int speed, int time_ms);
-void driveBackward(int speed, int time_ms);
+void setB(unsigned char speed, wheelDirection direction);
+void setA(unsigned char speed, wheelDirection direction);
+void stop();
+void turnLeft(unsigned char speed, int time_ms);
+void turnRight(unsigned char speed, int time_ms);
+void driveForward(unsigned char speed, int time_ms);
+void driveBackward(unsigned char speed, int time_ms);
 void delayUntilTargetCount();
 void getNumInterruptsForDuration(int duration_ms);
 
