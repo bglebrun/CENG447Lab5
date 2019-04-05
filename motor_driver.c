@@ -96,6 +96,7 @@ void turnLeft(int speed, int time_ms)
 
 void turnRight(int speed, int time_ms)
 {
+    getNumInterruptsForDuration(time_ms);
     setB(speed, BACK);
     setA(speed, FORWARD);
     delayUntilTargetCount();
@@ -105,6 +106,7 @@ void turnRight(int speed, int time_ms)
 
 void driveForward(int speed, int time_ms)
 {
+    getNumInterruptsForDuration(time_ms);
     setA(speed, FORWARD);
     setB(speed, FORWARD);
     delayUntilTargetCount();
@@ -114,6 +116,7 @@ void driveForward(int speed, int time_ms)
 
 void driveBackward(int speed, int time_ms)
 {
+    getNumInterruptsForDuration(time_ms);
     setA(speed, BACK);
     setB(speed, BACK);
     delayUntilTargetCount();
@@ -125,7 +128,8 @@ void delayUntilTargetCount()
 {
     while (MAIC <= targetCount)
     {
-        fprintf(&mystdout, "MAIC: %d | targetCount: %d", MAIC, targetCount);
+        fprintf(&mystdout, "MAIC: %ld | targetCount: %ld\r\n", MAIC,
+                targetCount);
     };
     MAIC = 0;
 }
