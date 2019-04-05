@@ -163,8 +163,8 @@ adjusting the PWM value written to the output compare registers.
 
 Another issue was using the correct data type. On initial sketch we used integers, 
 however, we later recalled that these are in fact 16 bit values being assigned to 
-8 bit accurate registers. To prevent overflow, we changed these to 8 bit c-character 
-variables immediately.
+8 bit accurate registers. To prevent overflow, we immediately changed these to 8 bit c-character 
+variables.
 
 This lab is fairly straightfoward, using the OCR0X registers directly to write a 
 relative speed between 0-255 in fast PWM mode on a 1024 prescale, we can more or 
@@ -180,6 +180,10 @@ speed/torque? Drawing on your knowledge from Circuits II, what is happening?
 
 As we increase the prescaler, the motors start to whine to even higher pitches as we increase the scale
 of the clock until what we suspect is a barely audible noise at 16MHz which is the absolute highest clock.
+In addition, as we went up through the pre-scalers, there was a noticable loss of torque as the prescale value 
+was increased. At a prescale value of 1, no prescale, we suspect there's some resolution or overflow happening, as 
+the motors remained on full power as it ran through the lab test program.
+
 The internal of the motor is a coil of wire around a magnet which is attempting to either attract itself 
 or deflect itself against the poles of the magnet and the poles of the magnetic inductive force around the 
 driving coils. When our prescale value is too high for this reaction to take place and affects the total duty
