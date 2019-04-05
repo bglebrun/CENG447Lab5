@@ -155,7 +155,7 @@ Computes the number of PWM periods that need to pass before the specified time h
 After a call to getNumInterruptsForDuration, targetCount will be set and delayUntilTargetCount will spin wait until MAIC is greater than the targetCount. MAIC is incremented by the TIMER0\_COMPA\_vect interrupt so the loop will be escaped after the appropriate delay has gone by.
 
 \subsection*{DELAY\_COUNT}
-macro function to simplify the computation for getNumInterruptsForDuration. Divides the requested speed by the PWM (interrupt) period and adds 1 if the period does not evenly divide the delay.
+Macro function to simplify the computation for getNumInterruptsForDuration. Divides the requested speed by the PWM (interrupt) period and adds 1 if the period does not evenly divide the delay.
 
 \section*{Discussion}
 Timers and motor drivers are finicky devices, especially on platforms with 
