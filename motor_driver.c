@@ -64,6 +64,10 @@ void initMotor()
     // Enable fast pwm mode for DC motor output
     TCCR0A = 0xA3;
     TCCR0B = 0x05; // 1024 prescaler
+    // TCCR0B = 0x04; // 256 prescaler
+    // TCCR0B = 0x03; // 64 prescaler
+    // TCCR0B = 0x02; // 8 prescaler
+    // TCCR0B = 0x01; // 1 prescaler
 
     // Enable counter match interrupt for counter A
     TIMSK0 = 0x02;
@@ -146,4 +150,6 @@ void getNumInterruptsForDuration(int duration_ms)
         targetCount = 0;
         // ERROR: 6 and 7 are external clocks and we can't predict them
     }
+    // reset the counter variable
+    MAIC = 0;
 }
