@@ -178,9 +178,41 @@ less come to approximate to the easy mode Arduino IDE sketch of setting the digi
 pins PWM of 0-255. Then it's a matter of writing corresponding functions to 
 make easier controlling the speed and direction to the motors.
 
+
 \section*{Responses}
 \begin{enumerate}
-\item Enumerations are a useful for addressing specific questions.
+\item  PWM frequency for Timer 0 is controlled by the clock-select bits in TCCR0B. Test all five
+PWM output frequencies while holding OCR0n static. What effects do you see on motor
+speed/torque? Drawing on your knowledge from Circuits II, what is happening?
+
+As we increase the prescaler, the motors start to whine to even higher pitches as we increase the scale
+of the clock until what we suspect is a barely audible noise at 16MHz which is the absolute highest clock.
+In addition, as we went up through the pre-scalers, there was a noticable loss of torque as the prescale value 
+was increased. At a prescale value of 1, no prescale, we suspect there's some resolution or overflow happening, as 
+the motors remained on full power as it ran through the lab test program.
+
+The internal of the motor is a coil of wire around a magnet which is attempting to either attract itself 
+or deflect itself against the poles of the magnet and the poles of the magnetic inductive force around the 
+driving coils. When our prescale value is too high for this reaction to take place and affects the total duty
+cycle available to the DC motor. In the case of the extremely high frequencies to our motors, the full duty 
+cycle is not being executed.
+
+
+
+\item  Watchdog timers are a critical part of robust embedded systems. How do watchdog timers
+function? Does the ATMega328P include a watchdog timer? If so, from where does it pull
+its clock signal? To what value would one set WDTCSR if they wanted to reset the system
+after one second of inactivity?
+
+A watchdog timer is a timer that, when hitting a timeout, will attempt to reset the entire 
+system. This is generally used to check for faults or large values of other timers and systems 
+to prevent hanging of the entire system. It's generally good practice to reset or refresh the watchdog 
+timer value at the end of certain processes to ensure it doesn't erroneously reset the entire system.
+
+The ATMega328P does have a watchdog timer which pulls from it's own independent clock generator. One 
+would set the last four bits of the WDTCSR register to 0110 for a one second watchdog timer.
+
+
 \end{enumerate} 
 
 \newpage
