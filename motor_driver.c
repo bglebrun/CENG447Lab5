@@ -11,8 +11,8 @@
 #define DELAY_COUNT(time, rate) time / rate + (time % rate == 0 ? 0 : 1)
 
 // interrupt counter for motor A
-volatile extern long MAIC;
-extern long targetCount;
+volatile extern unsigned long MAIC;
+extern unsigned long targetCount;
 
 void setA(unsigned char speed, wheelDirection direction)
 {

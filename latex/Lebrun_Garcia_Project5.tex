@@ -107,7 +107,7 @@ it also uses a pin map header file, we can also move the motor
 headers around when needed.
 
 \subsection*{initMotor}
-All of our motor initializations with timer preperation and 
+All of our motor initializations with timer preparation and 
 scaling, PWM modes and timer interrupt enable for turn functions.
 
 \subsection*{setB}
@@ -145,11 +145,17 @@ functions. Values are:
     \item back
 \end{itemize}
 
-\subsection*{delayUntilTargetCount}
-% TODO
+\subsection*{ISR(TIMER0_COMPA_vect) (interrupt)}
+Increments the MAIC by one each time the interrupt is invoked. This allows a rough delay functionality with an accuracy based on the period of the interrupt. The program uses a 1024 prescaler, so the period of a single interrupt cycle is 16ms. We noticed possible errors with this timing method for the smallest prescaler values.
 
 \subsection*{getNumInterruptsForDuration}
-% TODO
+Computes the number of PWM periods that need to pass before the specified time has passed, to the next full period. The targetCount global is set to this value and the MAIC (Motor A Interrupt Counter) variable is compared against it to determine when the delay is finished. MAIC is set to 0 at the end of the function to prevent the delay from being incorrect.
+
+\subsection*{delayUntilTargetCount}
+After a call to getNumInterruptsForDuration, targetCount will be set and delayUntilTargetCount will spin wait until MAIC is greater than the targetCount. MAIC is incremented by the TIMER0_COMPA_vect interrupt so the loop will be escaped after the appropriate delay has gone by.
+
+\subsection*{DELAY_COUNT}
+macro function to simplify the computation for getNumInterruptsForDuration. Divides the requested speed by the PWM (interrupt) period and adds 1 if the period does not evenly divide the delay.
 
 \section*{Discussion}
 Timers and motor drivers are finicky devices, especially on platforms with 
@@ -158,13 +164,13 @@ accurate but made to be fast and provide continuous drive. One of our first
 issues was in driving the motors and accounting for issues with the quality 
 of the build, especially power distribution and toe, camber, and alignment of 
 the wheels on their motors. Some degree of physical manipulation was performed 
-but we ultimately we will need to find software solutions to bias the wheels correctly by 
+but we ultimately took to software solutions to bias the wheels correctly by 
 adjusting the PWM value written to the output compare registers.
 
 Another issue was using the correct data type. On initial sketch we used integers, 
 however, we later recalled that these are in fact 16 bit values being assigned to 
-8 bit accurate registers. To prevent overflow, we immediately changed these to 8 bit c-character 
-variables.
+8 bit accurate registers. To prevent overflow, we changed these to 8 bit c-character 
+variables immediately.
 
 This lab is fairly straightfoward, using the OCR0X registers directly to write a 
 relative speed between 0-255 in fast PWM mode on a 1024 prescale, we can more or 
@@ -174,38 +180,7 @@ make easier controlling the speed and direction to the motors.
 
 \section*{Responses}
 \begin{enumerate}
-\item  PWM frequency for Timer 0 is controlled by the clock-select bits in TCCR0B. Test all five
-PWM output frequencies while holding OCR0n static. What effects do you see on motor
-speed/torque? Drawing on your knowledge from Circuits II, what is happening?
-
-As we increase the prescaler, the motors start to whine to even higher pitches as we increase the scale
-of the clock until what we suspect is a barely audible noise at 16MHz which is the absolute highest clock.
-In addition, as we went up through the pre-scalers, there was a noticable loss of torque as the prescale value 
-was increased. At a prescale value of 1, no prescale, we suspect there's some resolution or overflow happening, as 
-the motors remained on full power as it ran through the lab test program.
-
-The internal of the motor is a coil of wire around a magnet which is attempting to either attract itself 
-or deflect itself against the poles of the magnet and the poles of the magnetic inductive force around the 
-driving coils. When our prescale value is too high for this reaction to take place and affects the total duty
-cycle available to the DC motor. In the case of the extremely high frequencies to our motors, the full duty 
-cycle is not being executed.
-
-
-
-\item  Watchdog timers are a critical part of robust embedded systems. How do watchdog timers
-function? Does the ATMega328P include a watchdog timer? If so, from where does it pull
-its clock signal? To what value would one set WDTCSR if they wanted to reset the system
-after one second of inactivity?
-
-A watchdog timer is a timer that, when hitting a timeout, will attempt to reset the entire 
-system. This is generally used to check for faults or large values of other timers and systems 
-to prevent hanging of the entire system. It's generally good practice to reset or refresh the watchdog 
-timer value at the end of certain processes to ensure it doesn't erroneously reset the entire system.
-
-The ATMega328P does have a watchdog timer which pulls from it's own independent clock generator. One 
-would set the last four bits of the WDTCSR register to 0110 for a one second watchdog timer.
-
-
+\item Enumerations are a useful for addressing specific questions.
 \end{enumerate} 
 
 \newpage

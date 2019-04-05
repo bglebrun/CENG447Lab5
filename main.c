@@ -5,9 +5,9 @@
 #include <util/delay.h>
 
 // interrupt counter for motor A
-volatile long MAIC;
+volatile unsigned long MAIC;
 // number of interrupts to stop driving after
-long targetCount;
+unsigned long targetCount;
 
 void Init()
 {
