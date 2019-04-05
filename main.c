@@ -1,8 +1,14 @@
 #define F_CPU 16000000
-#include "avr/interrupt.h"
+// #define __AVR_ATmega328P__
 #include "motor_driver.h"
+#include <avr/interrupt.h>
 #include <avr/io.h>
 #include <util/delay.h>
+
+// interrupt counter for motor A
+volatile long MAIC;
+// number of interrupts to stop driving after
+long targetCount;
 
 void Init()
 {
@@ -12,25 +18,26 @@ void Init()
     sei();
 }
 
+void testCircle()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        driveForward(128, 500);
+        _delay_ms(200);
+        turnLeft(128, 250);
+        _delay_ms(200);
+    }
+}
+
 int main()
 {
     // int i = 0;
     Init();
     while (1)
     {
-        setA(128, FORWARD);
-        _delay_ms(500);
-        setA(0, FORWARD);
-        _delay_ms(500);
-        // From example, OCR0A here is changing constantly from 0 - 100 - 0
-        // for(i=0;i<=255;i++){
-        //   OCR0A = i;
-        //   _delay_ms(10);
-        // }
-        // for(;i>=0;i--){
-        //   OCR0A = i;
-        //   _delay_ms(10);
-        // }
+        testCircle();
     }
     return 1;
 }
+
+ISR(TIMER0_COMPA_vect) { MAIC++; }
